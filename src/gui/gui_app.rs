@@ -1,34 +1,26 @@
 use eframe::{Frame, Storage};
 use egui::{Context, RawInput, Ui};
+use crate::gui::menubar::TopBar;
 
 pub struct GuiApp{
-
+    top_bar: TopBar,
 }
 
 impl GuiApp {
     pub fn new() -> GuiApp {
-        Self{}
+        Self{
+            top_bar: TopBar::default(),
+        }
     }
 }
 
 impl eframe::App for GuiApp{
     fn logic(&mut self, ctx: &Context, frame: &mut Frame) {
+
     }
 
     fn ui(&mut self, ui: &mut Ui, frame: &mut Frame) {
-        egui::Panel::top("top_panel").show_inside(ui, |ui| {
-            // The top panel is often a good place for a menu bar:
-
-            egui::MenuBar::new().ui(ui, |ui| {
-                ui.menu_button("File", |ui| {
-                    if ui.button("Quit").clicked() {
-                        ui.send_viewport_cmd(egui::ViewportCommand::Close);
-                    }
-                });
-                ui.add_space(16.0);
-            });
-        });
-
+        self.top_bar.show(ui);
         egui::Panel::left("my_left_panel").show_inside(ui, |ui| {
             ui.label("Hello World!");
         });
