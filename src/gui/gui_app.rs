@@ -1,6 +1,6 @@
 use eframe::{Frame, Storage};
 use egui::{Context, RawInput, Ui};
-use crate::gui::menubar::TopBar;
+use crate::gui::top_bar::TopBar;
 
 pub struct GuiApp{
     top_bar: TopBar,
@@ -16,7 +16,6 @@ impl GuiApp {
 
 impl eframe::App for GuiApp{
     fn logic(&mut self, ctx: &Context, frame: &mut Frame) {
-
     }
 
     fn ui(&mut self, ui: &mut Ui, frame: &mut Frame) {

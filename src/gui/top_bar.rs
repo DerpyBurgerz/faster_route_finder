@@ -5,7 +5,7 @@ use std::sync::mpsc::Receiver;
 use std::thread;
 use egui::Ui;
 use rfd::FileDialog;
-
+#[derive(Default)]
 pub struct TopBar {
     rx: Option<Receiver<Option<PathBuf>>>,
     selected_file: Option<PathBuf>
@@ -39,33 +39,10 @@ impl TopBar {
     }
 
     fn take_selected_file(&mut self) -> Result<Option<PathBuf>, TryRecvError> {
-        match &self.rx {
-            None => {Ok(None)}
-            Some(rx) => {
-                match rx.try_recv() {
-                    file@Ok(_) => {
-                        self.rx = None;
-                        file
-                    }
-                    Err(uhh) => {
-                        match uhh {
-                            TryRecvError::Empty => {Ok(None)}
-                            error@TryRecvError::Disconnected => {
-                                Err(error)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-impl Default for TopBar{
-    fn default() -> Self {
-        Self {
-            rx: None,
-            selected_file: None,
+        if let Some(rx) = self.rx.take() {
+            rx.try_recv()
+        } else {
+            Ok(None)
         }
     }
 }
