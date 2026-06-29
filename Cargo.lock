@@ -1023,7 +1023,6 @@ dependencies = [
  "eframe",
  "egui",
  "rfd",
- "winit",
 ]
 
 [[package]]
